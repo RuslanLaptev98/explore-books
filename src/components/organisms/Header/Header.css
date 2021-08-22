@@ -1,0 +1,23 @@
+.Header {
+    background-color: #2d3035;
+    color: #fff;
+}
+.Header__title {
+    font-weight: 500;
+    font-size: 2rem;
+    text-align: center;
+    padding: 1.5rem 0rem;
+}
+.Header__title:hover {
+    cursor: pointer;
+}
+.Header__selectItems {
+    display: flex;
+    justify-content: center;
+}
+@media (max-width: 650px) {
+    .Header__selectItems {
+        display: block;
+        padding-bottom: 0.5rem;
+    }
+}

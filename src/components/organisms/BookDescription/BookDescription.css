@@ -1,0 +1,37 @@
+.BookDescription {
+    color: #4a596c;
+    line-height: 1.5rem;
+    margin-bottom: 2rem;
+}
+.BookDescription__backbtn {
+    display: flex;
+    align-items: center;
+    padding: 1.5rem 0;
+}
+.BookDescription__backbtn:hover {
+    cursor: pointer;
+}
+.BookDescription__backbtntext {
+    padding-left: 8px;
+    font-weight: 500;
+}
+.BookDescription__main {
+    display: flex;
+    width: 80%;
+    margin: auto;
+    background-color: #e9eef2;
+    border-radius: 8px;
+    padding: 2rem;
+}
+.BookDescription__image {
+    margin-right: 2rem;
+}
+.BookDescription__title {
+    font-weight: 700;
+    font-size: 1.5rem;
+    padding-top: 1rem;
+}
+.BookDescription__authors {
+    font-weight: 500;
+    padding-bottom: 1rem;
+}

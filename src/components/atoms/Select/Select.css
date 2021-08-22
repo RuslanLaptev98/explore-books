@@ -1,0 +1,22 @@
+.Select {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+.Select__label {
+    padding-left: 3rem;
+    padding-right: 1rem;
+}
+.Select__select {
+    margin-right: 3rem;
+    padding: 0.2rem 0.5rem;
+    border: none;
+    background-color: #f6f6f6;
+    color: #4a596c;
+    font-weight: 500;
+    border-radius: 4px;
+    outline: none;
+}
+.Select__select:hover {
+    cursor: pointer;
+}
