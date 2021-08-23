@@ -1,49 +1,40 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import './BookList.css'
 import BookCard from '../../atoms/BookCard/BookCard'
 import uuid from 'react-uuid'
 
-export default function BookList({
-    startIndex,
-    setStartIndex,
-    booksData,
-    setSelectedBook,
-    bookListMode,
-    setHelper,
-    setMode,
-    total,
-}) {
+function BookList(props) {
     return (
         <div className="BookList">
             <div className="container">
-                {bookListMode === 0 ? (
+                {props.bookListMode === 0 ? (
                     <div className="BookList__initial BookList__text">
                         Start searching to find the book you need
                     </div>
-                ) : bookListMode === 1 ? (
+                ) : props.bookListMode === 1 ? (
                     <div className="BookList__loading BookList__text">
                         Loading...
                     </div>
-                ) : bookListMode === 2 ? (
+                ) : props.bookListMode === 2 ? (
                     <>
                         <div className="BookList__total">
-                            Total items: {total}
+                            Total items: {props.total}
                         </div>
                         <div className="BookList__main">
-                            {booksData.map((book) => (
+                            {props.booksData.map((book) => (
                                 <BookCard
                                     key={uuid()}
                                     book={book}
-                                    setSelectedBook={setSelectedBook}
-                                    setMode={setMode}
+                                    setSelectedBook={props.setSelectedBook}
                                 />
                             ))}
                         </div>
                         <button
                             className="BookList__loadmore"
                             onClick={() => {
-                                setStartIndex(startIndex + 30)
-                                setHelper(0)
+                                props.setStartIndex(props.startIndex + 30)
+                                props.setHelper(0)
                             }}
                         >
                             Load more
@@ -58,3 +49,13 @@ export default function BookList({
         </div>
     )
 }
+
+// Redux
+
+const mapStateToProps = (state) => {
+    return {
+        bookListMode: state.bookListMode.bookListMode,
+    }
+}
+
+export default connect(mapStateToProps)(BookList)

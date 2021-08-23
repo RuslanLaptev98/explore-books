@@ -1,39 +1,31 @@
 import React, { useEffect } from 'react'
+import { connect } from 'react-redux'
 import './Select.css'
 
-export default function Select({
-    label,
-    options,
-    initialValue,
-    setFilter,
-    setBooksData,
-    fetchBooks,
-    setBookListMode,
-    input,
-    setStartIndex,
-    helper,
-    setHelper,
-}) {
+// Redux
+import { setToLoading } from '../../../redux/index'
+
+function Select(props) {
     useEffect(() => {
-        helper !== 0 && fetchBooks()
+        props.helper !== 0 && props.fetchBooks()
     })
     return (
         <div className="Select">
-            <div className="Select__label">{label}</div>
+            <div className="Select__label">{props.label}</div>
             <select
                 className="Select__select"
-                value={initialValue}
+                value={props.initialValue}
                 onChange={(e) => {
-                    setFilter(e.target.value)
-                    setBooksData([])
-                    if (input) {
-                        setBookListMode(1)
-                        setStartIndex(0)
-                        setHelper(1)
+                    props.setFilter(e.target.value)
+                    props.setBooksData([])
+                    if (props.input) {
+                        props.setToLoading()
+                        props.setStartIndex(0)
+                        props.setHelper(1)
                     }
                 }}
             >
-                {options.map((option, i) => (
+                {props.options.map((option, i) => (
                     <option className="Select__option" value={option} key={i}>
                         {option}
                     </option>
@@ -42,3 +34,17 @@ export default function Select({
         </div>
     )
 }
+
+// Redux
+const mapStateToProps = (state) => {
+    return {
+        input: state.input.input,
+    }
+}
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setToLoading: () => dispatch(setToLoading()),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Select)

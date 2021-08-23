@@ -1,48 +1,69 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import './BookCard.css'
 
-export default function BookCard({ book, setSelectedBook, setMode }) {
+//Redux
+import { setToBookDescription } from '../../../redux/index'
+
+function BookCard(props) {
     return (
         <div
             className="BookCard"
             onClick={() => {
-                setSelectedBook(book)
-                setMode(1)
+                props.setSelectedBook(props.book)
+                props.setToBookDescription()
             }}
         >
-            {book && book.volumeInfo && book.volumeInfo.imageLinks ? (
+            {props.book &&
+            props.book.volumeInfo &&
+            props.book.volumeInfo.imageLinks ? (
                 <div
                     className="BookCard__image"
                     style={{
                         backgroundImage: `url(${
-                            book.volumeInfo.imageLinks.smallThumbnail
-                                ? book.volumeInfo.imageLinks.smallThumbnail
-                                : book.volumeInfo.imageLinks.thumbnail
+                            props.book.volumeInfo.imageLinks.smallThumbnail
+                                ? props.book.volumeInfo.imageLinks
+                                      .smallThumbnail
+                                : props.book.volumeInfo.imageLinks.thumbnail
                         })`,
                     }}
                 ></div>
             ) : null}
 
             <div className="BookCard__category">
-                {book &&
-                    book.volumeInfo &&
-                    book.volumeInfo.categories &&
-                    book.volumeInfo.categories.map((cat) => `${cat} `)}
+                {props.book &&
+                    props.book.volumeInfo &&
+                    props.book.volumeInfo.categories &&
+                    props.book.volumeInfo.categories.map((cat) => `${cat} `)}
             </div>
             <div className="BookCard__title">
-                {book && book.volumeInfo && book.volumeInfo.title
-                    ? book.volumeInfo.title
+                {props.book &&
+                props.book.volumeInfo &&
+                props.book.volumeInfo.title
+                    ? props.book.volumeInfo.title
                     : ' '}
             </div>
             <div className="BookCard__authors">
-                {book && book.volumeInfo && !book.volumeInfo.authors
+                {props.book &&
+                props.book.volumeInfo &&
+                !props.book.volumeInfo.authors
                     ? ' '
-                    : book.volumeInfo.authors.length === 1
-                    ? book.volumeInfo.authors[0]
-                    : `${book.volumeInfo.authors[0]} and ${
-                          book.volumeInfo.authors.length - 1
+                    : props.book.volumeInfo.authors.length === 1
+                    ? props.book.volumeInfo.authors[0]
+                    : `${props.book.volumeInfo.authors[0]} and ${
+                          props.book.volumeInfo.authors.length - 1
                       } more`}
             </div>
         </div>
     )
 }
+
+// Redux
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setToBookDescription: () => dispatch(setToBookDescription()),
+    }
+}
+
+export default connect(null, mapDispatchToProps)(BookCard)

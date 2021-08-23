@@ -1,23 +1,18 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import './Header.css'
 import SearchBar from '../../atoms/SearchBar/SearchBar'
 import Select from '../../atoms/Select/Select'
 
-export default function Header({
-    input,
+// Redux
+import {
+    setToBookList,
     setInput,
-    fetchBooks,
-    setBookListMode,
-    order,
     setOrder,
-    category,
     setCategory,
-    setBooksData,
-    setStartIndex,
-    helper,
-    setHelper,
-    setMode,
-}) {
+} from '../../../redux/index'
+
+function Header(props) {
     const orderOptions = ['relevance', 'newest']
     const categoryOptions = [
         'all',
@@ -34,45 +29,36 @@ export default function Header({
                 <div
                     className="Header__title"
                     onClick={() => {
-                        setInput('')
-                        setMode(0)
+                        props.setInput(' ')
+                        props.setToBookList()
                     }}
                 >
                     explore books
                 </div>
                 <div className="Header__search">
-                    <SearchBar
-                        input={input}
-                        setInput={setInput}
-                        fetchBooks={fetchBooks}
-                        setBookListMode={setBookListMode}
-                    />
+                    <SearchBar fetchBooks={props.fetchBooks} />
                     <div className="Header__selectItems">
                         <Select
                             label="Categories"
                             options={categoryOptions}
-                            initialValue={category}
-                            setFilter={setCategory}
-                            setBooksData={setBooksData}
-                            fetchBooks={fetchBooks}
-                            setBookListMode={setBookListMode}
-                            input={input}
-                            setStartIndex={setStartIndex}
-                            helper={helper}
-                            setHelper={setHelper}
+                            fetchBooks={props.fetchBooks}
+                            initialValue={props.category}
+                            setFilter={props.setCategory}
+                            setBooksData={props.setBooksData}
+                            setStartIndex={props.setStartIndex}
+                            helper={props.helper}
+                            setHelper={props.setHelper}
                         />
                         <Select
                             label="Sorting by"
                             options={orderOptions}
-                            initialValue={order}
-                            setFilter={setOrder}
-                            setBooksData={setBooksData}
-                            fetchBooks={fetchBooks}
-                            setBookListMode={setBookListMode}
-                            input={input}
-                            setStartIndex={setStartIndex}
-                            helper={helper}
-                            setHelper={setHelper}
+                            fetchBooks={props.fetchBooks}
+                            initialValue={props.order}
+                            setFilter={props.setOrder}
+                            setBooksData={props.setBooksData}
+                            setStartIndex={props.setStartIndex}
+                            helper={props.helper}
+                            setHelper={props.setHelper}
                         />
                     </div>
                 </div>
@@ -80,3 +66,22 @@ export default function Header({
         </div>
     )
 }
+
+// Redux
+const mapStateToProps = (state) => {
+    return {
+        input: state.input.input,
+        order: state.input.order,
+        category: state.input.category,
+    }
+}
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setToBookList: () => dispatch(setToBookList()),
+        setInput: (userInput) => dispatch(setInput(userInput)),
+        setOrder: (order) => dispatch(setOrder(order)),
+        setCategory: (category) => dispatch(setCategory(category)),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header)

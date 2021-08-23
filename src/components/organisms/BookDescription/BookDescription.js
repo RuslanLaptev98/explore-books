@@ -1,14 +1,18 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import './BookDescription.css'
 import { BsBoxArrowInLeft } from 'react-icons/bs'
 
-export default function BookDescription({ setMode, selectedBook }) {
+// Redux
+import { setToBookList } from '../../../redux/index'
+
+function BookDescription(props) {
     return (
         <div className="BookDescription">
             <div className="container">
                 <div
                     className="BookDescription__backbtn"
-                    onClick={() => setMode(0)}
+                    onClick={() => props.setToBookList()}
                 >
                     <BsBoxArrowInLeft size="1.5rem" fill="#4A596C" />
                     <div className="BookDescription__backbtntext">Back</div>
@@ -17,9 +21,10 @@ export default function BookDescription({ setMode, selectedBook }) {
                     <div className="BookDescription__image">
                         <img
                             src={
-                                selectedBook.volumeInfo &&
-                                selectedBook.volumeInfo.imageLinks &&
-                                selectedBook.volumeInfo.imageLinks.thumbnail
+                                props.selectedBook.volumeInfo &&
+                                props.selectedBook.volumeInfo.imageLinks &&
+                                props.selectedBook.volumeInfo.imageLinks
+                                    .thumbnail
                             }
                             alt="book cover"
                         />
@@ -27,27 +32,27 @@ export default function BookDescription({ setMode, selectedBook }) {
                     <div className="BookDescription__content">
                         <div className="BookDescription__categories">
                             <em>
-                                {selectedBook.categories &&
-                                    selectedBook.volumeInfo.categories &&
-                                    selectedBook.volumeInfo.categories
+                                {props.selectedBook.categories &&
+                                    props.selectedBook.volumeInfo.categories &&
+                                    props.selectedBook.volumeInfo.categories
                                         .map((cat) => cat)
                                         .join(', ')}
                             </em>
                         </div>
                         <div className="BookDescription__title">
-                            {selectedBook.volumeInfo &&
-                                selectedBook.volumeInfo.title}
+                            {props.selectedBook.volumeInfo &&
+                                props.selectedBook.volumeInfo.title}
                         </div>
                         <div className="BookDescription__authors">
-                            {selectedBook.volumeInfo &&
-                                selectedBook.volumeInfo.authors &&
-                                selectedBook.volumeInfo.authors
+                            {props.selectedBook.volumeInfo &&
+                                props.selectedBook.volumeInfo.authors &&
+                                props.selectedBook.volumeInfo.authors
                                     .map((author) => author)
                                     .join(', ')}
                         </div>
                         <div className="BookDescription__description">
-                            {selectedBook.volumeInfo &&
-                                selectedBook.volumeInfo.description}
+                            {props.selectedBook.volumeInfo &&
+                                props.selectedBook.volumeInfo.description}
                         </div>
                     </div>
                 </div>
@@ -55,3 +60,13 @@ export default function BookDescription({ setMode, selectedBook }) {
         </div>
     )
 }
+
+// Redux
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setToBookList: () => dispatch(setToBookList()),
+    }
+}
+
+export default connect(null, mapDispatchToProps)(BookDescription)

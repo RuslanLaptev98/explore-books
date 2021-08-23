@@ -1,0 +1,4 @@
+export const SET_TO_INITIAL = 'SET_TO_INITIAL'
+export const SET_TO_LOADING = 'SET_TO_LOADING'
+export const SET_TO_RESULT = 'SET_TO_RESULT'
+export const SET_TO_NOTFOUND = 'SET_TO_NOTFOUND'
