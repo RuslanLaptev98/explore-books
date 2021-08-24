@@ -3,7 +3,11 @@ import { connect } from 'react-redux'
 import './Select.css'
 
 // Redux
-import { setToLoading } from '../../../redux/index'
+import {
+    setToLoading,
+    setStartIndexToZero,
+    clearBooksData,
+} from '../../../redux/index'
 
 function Select(props) {
     useEffect(() => {
@@ -17,10 +21,10 @@ function Select(props) {
                 value={props.initialValue}
                 onChange={(e) => {
                     props.setFilter(e.target.value)
-                    props.setBooksData([])
+                    props.clearBooksData()
                     if (props.input) {
                         props.setToLoading()
-                        props.setStartIndex(0)
+                        props.setStartIndexToZero()
                         props.setHelper(1)
                     }
                 }}
@@ -44,6 +48,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         setToLoading: () => dispatch(setToLoading()),
+        setStartIndexToZero: () => dispatch(setStartIndexToZero()),
+        clearBooksData: () => dispatch(clearBooksData()),
     }
 }
 

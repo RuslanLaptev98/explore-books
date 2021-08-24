@@ -1,0 +1,1 @@
+export const SET_SELECTED_BOOK = 'SET_SELECTED_BOOK'

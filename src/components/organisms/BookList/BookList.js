@@ -4,6 +4,9 @@ import './BookList.css'
 import BookCard from '../../atoms/BookCard/BookCard'
 import uuid from 'react-uuid'
 
+// Redux
+import { incrementStartIndex } from '../../../redux/index'
+
 function BookList(props) {
     return (
         <div className="BookList">
@@ -22,18 +25,15 @@ function BookList(props) {
                             Total items: {props.total}
                         </div>
                         <div className="BookList__main">
-                            {props.booksData.map((book) => (
-                                <BookCard
-                                    key={uuid()}
-                                    book={book}
-                                    setSelectedBook={props.setSelectedBook}
-                                />
-                            ))}
+                            {props.bookData &&
+                                props.bookData.map((book) => (
+                                    <BookCard key={uuid()} book={book} />
+                                ))}
                         </div>
                         <button
                             className="BookList__loadmore"
                             onClick={() => {
-                                props.setStartIndex(props.startIndex + 30)
+                                props.incrementStartIndex()
                                 props.setHelper(0)
                             }}
                         >
@@ -55,7 +55,16 @@ function BookList(props) {
 const mapStateToProps = (state) => {
     return {
         bookListMode: state.bookListMode.bookListMode,
+        startIndex: state.startIndex.startIndex,
+        total: state.total.total,
+        bookData: state.bookData.bookData,
     }
 }
 
-export default connect(mapStateToProps)(BookList)
+const mapDispatchToProps = (dispatch) => {
+    return {
+        incrementStartIndex: () => dispatch(incrementStartIndex()),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BookList)

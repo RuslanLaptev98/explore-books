@@ -63,10 +63,16 @@ function BookDescription(props) {
 
 // Redux
 
+const mapStateToProps = (state) => {
+    return {
+        selectedBook: state.selectedBook.selectedBook,
+    }
+}
+
 const mapDispatchToProps = (dispatch) => {
     return {
         setToBookList: () => dispatch(setToBookList()),
     }
 }
 
-export default connect(null, mapDispatchToProps)(BookDescription)
+export default connect(mapStateToProps, mapDispatchToProps)(BookDescription)

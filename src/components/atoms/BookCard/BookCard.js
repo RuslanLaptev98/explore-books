@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import './BookCard.css'
 
 //Redux
-import { setToBookDescription } from '../../../redux/index'
+import { setToBookDescription, setSelectedBook } from '../../../redux/index'
 
 function BookCard(props) {
     return (
@@ -63,6 +63,8 @@ function BookCard(props) {
 const mapDispatchToProps = (dispatch) => {
     return {
         setToBookDescription: () => dispatch(setToBookDescription()),
+        setSelectedBook: (selectedBook) =>
+            dispatch(setSelectedBook(selectedBook)),
     }
 }
 

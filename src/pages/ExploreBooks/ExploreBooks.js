@@ -4,20 +4,24 @@ import './ExploreBooks.css'
 import Header from '../../components/organisms/Header/Header'
 import BookList from '../../components/organisms/BookList/BookList'
 import BookDescription from '../../components/organisms/BookDescription/BookDescription'
-import { setToInitial, setToResult, setToNotfound } from '../../redux/index'
+import {
+    setToInitial,
+    setToResult,
+    setToNotfound,
+    setTotal,
+    setBooksData,
+    clearBooksData,
+} from '../../redux/index'
 
 function ExploreBooks(props) {
-    const [startIndex, setStartIndex] = useState(0)
-    const [booksData, setBooksData] = useState([])
-    const [total, setTotal] = useState(null)
-    const [selectedBook, setSelectedBook] = useState(null)
+    const [helper, setHelper] = useState(0)
 
     const fetchBooks = () => {
         fetch(
             `https://www.googleapis.com/books/v1/volumes?q=${props.input}${
                 props.input &&
                 (props.category === 'all' ? '' : `+subject:${props.category}`)
-            }&startIndex=${startIndex}&orderBy=${
+            }&startIndex=${props.startIndex}&orderBy=${
                 props.order
             }&maxResults=30&key=AIzaSyCO80BgD6Gz2kTu79mnUSg-V7Cub0hJrMs`
         )
@@ -30,48 +34,38 @@ function ExploreBooks(props) {
                     props.setToNotfound()
                     return
                 } else if (
-                    booksData.length > 0 &&
+                    props.bookData.length > 0 &&
                     data.items &&
-                    data.items[0].id === booksData[0].id
+                    data.items[0].id === props.bookData[0].id
                 ) {
                     props.setToResult()
                     return
                 }
-                setBooksData(booksData.concat(data.items))
-                setTotal(data.totalItems)
+                props.setBooksData(props.bookData.concat(data.items))
+                props.setTotal(data.totalItems)
                 props.setToResult()
             })
     }
 
-    const [helper, setHelper] = useState(0)
-
     useEffect(() => {
-        if (startIndex) fetchBooks()
-    }, [startIndex])
+        if (props.startIndex) fetchBooks()
+    }, [props.startIndex])
     useEffect(() => {
         props.setToInitial()
-        setBooksData([])
+        props.clearBooksData()
     }, [props.input])
+
     return (
         <div className="ExploreBooks">
             <Header
                 fetchBooks={fetchBooks}
-                setBooksData={setBooksData}
-                setStartIndex={setStartIndex}
                 helper={helper}
                 setHelper={setHelper}
             />
             {props.mode === 0 ? (
-                <BookList
-                    startIndex={startIndex}
-                    setStartIndex={setStartIndex}
-                    booksData={booksData}
-                    setSelectedBook={setSelectedBook}
-                    total={total}
-                    setHelper={setHelper}
-                />
+                <BookList setHelper={setHelper} />
             ) : (
-                <BookDescription selectedBook={selectedBook} />
+                <BookDescription />
             )}
         </div>
     )
@@ -85,6 +79,8 @@ const mapStateToProps = (state) => {
         input: state.input.input,
         order: state.order.order,
         category: state.category.category,
+        startIndex: state.startIndex.startIndex,
+        bookData: state.bookData.bookData,
     }
 }
 
@@ -93,6 +89,9 @@ const mapDispatchToProps = (dispatch) => {
         setToInitial: () => dispatch(setToInitial()),
         setToResult: () => dispatch(setToResult()),
         setToNotfound: () => dispatch(setToNotfound()),
+        setTotal: (value) => dispatch(setTotal(value)),
+        setBooksData: (value) => dispatch(setBooksData(value)),
+        clearBooksData: () => dispatch(clearBooksData()),
     }
 }
 

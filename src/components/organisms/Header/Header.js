@@ -29,7 +29,7 @@ function Header(props) {
                 <div
                     className="Header__title"
                     onClick={() => {
-                        props.setInput(' ')
+                        props.setInput('')
                         props.setToBookList()
                     }}
                 >
@@ -44,8 +44,6 @@ function Header(props) {
                             fetchBooks={props.fetchBooks}
                             initialValue={props.category}
                             setFilter={props.setCategory}
-                            setBooksData={props.setBooksData}
-                            setStartIndex={props.setStartIndex}
                             helper={props.helper}
                             setHelper={props.setHelper}
                         />
@@ -55,8 +53,6 @@ function Header(props) {
                             fetchBooks={props.fetchBooks}
                             initialValue={props.order}
                             setFilter={props.setOrder}
-                            setBooksData={props.setBooksData}
-                            setStartIndex={props.setStartIndex}
                             helper={props.helper}
                             setHelper={props.setHelper}
                         />
